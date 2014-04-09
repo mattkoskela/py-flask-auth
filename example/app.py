@@ -39,13 +39,19 @@ def register():
 def login():
     if request.method == "GET":
         return render_template("login.html")
+
     email = request.form["email"]
     password = request.form["password"]
+    remember_me = False
+
+    if "remember_me" in request.form:
+        remember_me = True
+
     registered_user = User.query.filter_by(email=email, password=password).first()
     if registered_user is None:
         flash("Email or Password is invalid", "danger")
         return redirect(url_for("login"))
-    login_user(registered_user)
+    login_user(registered_user, remember=remember_me)
     flash("Logged in successfully", "success")
     return redirect(request.args.get("next") or url_for("index"))
 

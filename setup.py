@@ -3,7 +3,7 @@ from setuptools import setup
 
 LONG_DESC = open(os.path.join(os.path.dirname(__file__), "README.md")).read()
 
-with open("okr/version.py") as f:
+with open("example/version.py") as f:
     exec(f.read())
 
 setup(

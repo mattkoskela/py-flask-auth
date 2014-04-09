@@ -1,0 +1,9 @@
+CREATE DATABASE example;
+
+CREATE TABLE `example`.`tbl_user` (
+  `id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(128) NOT NULL,
+  `email` VARCHAR(128) NOT NULL,
+  `password` VARCHAR(128) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

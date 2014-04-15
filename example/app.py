@@ -1,3 +1,5 @@
+import hashlib
+import bcrypt
 from flask import Flask, session, request, flash, url_for, redirect, \
 render_template, abort, g
 from flask.ext.login import login_user, logout_user, current_user, \
@@ -42,15 +44,20 @@ def login():
 
     email = request.form["email"]
     password = request.form["password"]
+
     remember_me = False
 
     if "remember_me" in request.form:
         remember_me = True
 
-    registered_user = User.query.filter_by(email=email, password=password).first()
+    registered_user = User.query.filter_by(email=email).first()
     if registered_user is None:
-        flash("Email or Password is invalid", "danger")
+        flash("Email is invalid", "danger")
         return redirect(url_for("login"))
+    elif bcrypt.hashpw(password, registered_user.password) != registered_user.password:
+        flash("Password is invalid", "danger")
+        return redirect(url_for("login"))
+
     login_user(registered_user, remember=remember_me)
     flash("Logged in successfully", "success")
     return redirect(request.args.get("next") or url_for("index"))
@@ -74,13 +81,12 @@ class User(db.Model):
     name = db.Column("name", db.String(128))
     email = db.Column("email", db.String(128), unique=True, index=True)
     password = db.Column("password", db.String(60))
-    salt = db.Column("salt", db.String(32))
     registered_on = db.Column("registered_on", db.DateTime)
 
-    def __init__(self, name, email, password):
+    def __init__(self, name, email, plain_password):
         self.name = name
         self.email = email
-        self.password = password
+        self.password = bcrypt.hashpw(plain_password, bcrypt.gensalt(app.config["BCRYPT_ITERATIONS"]))
 
     def is_authenticated(self):
         return True

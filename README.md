@@ -17,7 +17,6 @@ To setup your database, run this command:
 ## Roadmap
 
 The following items are planned for a future release:
- - Password hash and salt
  - Forgot Password link powered by SendGrid
  - About page explaining how things work
  - Install instructions in README
@@ -31,4 +30,5 @@ The following items are planned for a future release:
  - Offer a weaker password hash algorithm than blowfish (py-bycrypt) that is pure python for things like Google App Engine
 
 ## Roadmap Progress
+ - Password hash and salt - v0.0.3 (April 15, 2014)
  - Remember me - v0.0.2 (April 8, 2014)

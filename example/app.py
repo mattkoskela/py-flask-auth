@@ -73,7 +73,9 @@ class User(db.Model):
     id = db.Column("id", db.Integer, primary_key=True)
     name = db.Column("name", db.String(128))
     email = db.Column("email", db.String(128), unique=True, index=True)
-    password = db.Column("password", db.String(30))
+    password = db.Column("password", db.String(60))
+    salt = db.Column("salt", db.String(32))
+    registered_on = db.Column("registered_on", db.DateTime)
 
     def __init__(self, name, email, password):
         self.name = name

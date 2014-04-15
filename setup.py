@@ -22,6 +22,7 @@ setup(
         "flask==0.10.1",
         "flask-login==0.2.10",
         "flask-sqlalchemy==1.0",
+        "py-bcrypt==0.4",
         "PyMySQL==0.6.1",
         "sqlalchemy==0.9.4",
     ]

@@ -1,1 +1,1 @@
-v0.0.1, 2014-04-08 -- Initial commit with working login, logout, and registration functionality.
+v0.0.1, 2014-04-08 -- Initial commit with working login, logout, and registration functionality.v0.0.2, 2014-04-08 -- Added remember me functionalityv0.0.3, 2014-04-15 -- Added password hash and salting

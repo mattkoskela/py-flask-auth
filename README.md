@@ -1,11 +1,17 @@
-Flask Login Template
-====================
+# Flask Login Template
 
 This package contains all of the necessary components to run a website with
 user authentication on Flask and Bootstrap.
 
 The necessary database schema can be found in the docs directory (MySQL).
 
+
+## Installation
+
+These installation notes are still in progress...
+
+To setup your database, run this command:
+> mysql < docs/schema.sql
 
 Roadmap
 =======

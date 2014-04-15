@@ -11,10 +11,9 @@ The necessary database schema can be found in the docs directory (MySQL).
 These installation notes are still in progress...
 
 To setup your database, run this command:
-> mysql < docs/schema.sql
+    mysql < docs/schema.sql
 
-Roadmap
-=======
+## Roadmap
 
 The following items are planned for a future release:
  - Password hash and salt
@@ -30,6 +29,5 @@ The following items are planned for a future release:
  - Fail nicely with formatted error message if app can't connect to database
  - Offer a weaker password hash algorithm than blowfish (py-bcyrpt) that is pure python for things like Google App Engine
 
-Roadmap Progress
-================
+## Roadmap Progress
  - Remember me - v0.0.2 (April 8, 2014)

@@ -28,7 +28,7 @@ The following items are planned for a future release:
  - Make it easier to build an app on top of this, and be able to update this separately to add new functionality
  - Add default profile page
  - Fail nicely with formatted error message if app can't connect to database
- - Offer a weaker password hash algorithm than blowfish (py-bcyrpt) that is pure python for things like Google App Engine
+ - Offer a weaker password hash algorithm than blowfish (py-bycrypt) that is pure python for things like Google App Engine
 
 ## Roadmap Progress
  - Remember me - v0.0.2 (April 8, 2014)

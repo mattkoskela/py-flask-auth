@@ -11,6 +11,7 @@ The necessary database schema can be found in the docs directory (MySQL).
 These installation notes are still in progress...
 
 To setup your database, run this command:
+
     mysql < docs/schema.sql
 
 ## Roadmap

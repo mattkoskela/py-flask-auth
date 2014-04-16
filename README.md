@@ -25,10 +25,10 @@ The following items are planned for a future release:
  - Separate out sqlalchemy models into separate file
  - Define database name in install file or setup file
  - Make it easier to build an app on top of this, and be able to update this separately to add new functionality
- - Add default profile page
  - Fail nicely with formatted error message if app can't connect to database
  - Offer a weaker password hash algorithm than blowfish (py-bycrypt) that is pure python for things like Google App Engine
 
 ## Roadmap Progress
+ - Add default profile page - v0.0.4 (April 16, 2014)
  - Password hash and salt - v0.0.3 (April 15, 2014)
  - Remember me - v0.0.2 (April 8, 2014)

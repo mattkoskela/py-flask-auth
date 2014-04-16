@@ -26,6 +26,11 @@ def protected():
 def unprotected():
     return render_template("unprotected.html")
 
+@app.route("/profile")
+@login_required
+def profile():
+    return render_template("profile.html")
+
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "GET":

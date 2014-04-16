@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+{% block body %}
+
+    <div class="container">
+
+      <div class="starter-template">
+        <div class="row">
+          <div><strong>Name</strong></div>
+          <div>{{ g.user.name }}</div>
+        </div>
+        <div class="row">
+          <div><strong>Email</strong></div>
+          <div>{{ g.user.email }}</div>
+        </div>
+        <div class="row">
+          <div><strong>Registered</strong></div>
+          <div>{{ g.user.registered_on.strftime('%B %d, %Y') }}</div>
+        </div>
+      </div>
+
+    </div><!-- /.container -->
+
+{% endblock %}

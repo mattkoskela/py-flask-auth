@@ -1,5 +1,6 @@
-import hashlib
 import bcrypt
+import hashlib
+import sendgrid
 from flask import Flask, session, request, flash, url_for, redirect, \
 render_template, abort, g
 from flask.ext.login import login_user, logout_user, current_user, \
@@ -66,6 +67,24 @@ def login():
     login_user(registered_user, remember=remember_me)
     flash("Logged in successfully", "success")
     return redirect(request.args.get("next") or url_for("index"))
+
+@app.route("/forgot-password", methods=["GET", "POST"])
+def forgot_password():
+    if request.method == "GET":
+        return render_template("forgot-password.html")
+
+    email = request.form["email"]
+
+    registered_user = User.query.filter_by(email=email).first()
+    if registered_user is None:
+        flash("No user with this email exists", "danger")
+        return redirect(url_for("forgot_password"))
+    else:
+        sg = sendgrid.SendGridClient(app.config["YOUR_SENDGRID_USERNAME"], app.config["YOUR_SENDGRID_PASSWORD"])
+        message = sendgrid.Mail(to=email, subject="Password Reset Link", html="Body", text="Body", from_email=app.config["SEND_EMAIL_FROM"])
+        status, msg = sg.send(message)
+        flash("Password reset link has been sent", "success")
+        return redirect(url_for("login"))
 
 @app.route("/logout")
 def logout():

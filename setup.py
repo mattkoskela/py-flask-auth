@@ -24,6 +24,7 @@ setup(
         "flask-sqlalchemy==1.0",
         "py-bcrypt==0.4",
         "PyMySQL==0.6.1",
+        "sendgrid-python==0.1.1",
         "sqlalchemy==0.9.4",
     ]
 )

@@ -27,6 +27,7 @@ The following items are planned for a future release:
  - Make it easier to build an app on top of this, and be able to update this separately to add new functionality
  - Fail nicely with formatted error message if app can't connect to database
  - Offer a weaker password hash algorithm than blowfish (py-bycrypt) that is pure python for things like Google App Engine
+ - Restrict the number of login attempts for a user/ip/minute
 
 ## Roadmap Progress
  - Add default profile page - v0.0.4 (April 16, 2014)

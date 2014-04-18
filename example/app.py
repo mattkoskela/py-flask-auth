@@ -1,6 +1,8 @@
+import uuid
 import bcrypt
 import hashlib
 import sendgrid
+import datetime
 from flask import Flask, session, request, flash, url_for, redirect, \
 render_template, abort, g
 from flask.ext.login import login_user, logout_user, current_user, \
@@ -38,6 +40,7 @@ def register():
         return render_template("register.html")
     user = User(request.form["name"], request.form["email"],
                 request.form["password"])
+    user.registered_on = datetime.datetime.now()
     db.session.add(user)
     db.session.commit()
     flash("User successfully registered", "success")
@@ -75,13 +78,21 @@ def forgot_password():
 
     email = request.form["email"]
 
-    registered_user = User.query.filter_by(email=email).first()
-    if registered_user is None:
+    user = User.query.filter_by(email=email).first()
+    if user is None:
         flash("No user with this email exists", "danger")
         return redirect(url_for("forgot_password"))
     else:
-        sg = sendgrid.SendGridClient(app.config["YOUR_SENDGRID_USERNAME"], app.config["YOUR_SENDGRID_PASSWORD"])
-        message = sendgrid.Mail(to=email, subject="Password Reset Link", html="Body", text="Body", from_email=app.config["SEND_EMAIL_FROM"])
+        user.password_reset_hash = hashlib.sha1(uuid.uuid4().hex).hexdigest()
+        user.password_reset_exp = datetime.datetime.now() + datetime.timedelta(days=1)
+        db.session.merge(user)
+        db.session.commit()
+        sg = sendgrid.SendGridClient(app.config["SENDGRID_USER"],
+                                     app.config["SENDGRID_PASS"])
+        message = sendgrid.Mail(to=email, subject="Password Reset Link",
+                                html="This password reset link will expire in 24 hours.",
+                                text="This password reset link will expire in 24 hours.",
+                                from_email=app.config["SEND_EMAIL_FROM"])
         status, msg = sg.send(message)
         flash("Password reset link has been sent", "success")
         return redirect(url_for("login"))
@@ -105,6 +116,8 @@ class User(db.Model):
     name = db.Column("name", db.String(128))
     email = db.Column("email", db.String(128), unique=True, index=True)
     password = db.Column("password", db.String(60))
+    password_reset_hash = db.Column("password_reset_hash", db.String(40))
+    password_reset_exp = db.Column("password_reset_exp", db.DateTime)
     registered_on = db.Column("registered_on", db.DateTime)
 
     def __init__(self, name, email, plain_password):

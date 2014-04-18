@@ -5,6 +5,8 @@ CREATE TABLE `example`.`tbl_user` (
   `name` VARCHAR(128) NOT NULL,
   `email` VARCHAR(128) NOT NULL,
   `password` VARCHAR(60) NOT NULL,
-  `registered_on` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  `password_reset_hash` VARCHAR(40),
+  `password_reset_exp` DATETIME,
+  `registered_on` DATETIME,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

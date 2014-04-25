@@ -17,7 +17,6 @@ To setup your database, run this command:
 ## Roadmap
 
 The following items are planned for a future release:
- - Forgot Password link powered by SendGrid
  - About page explaining how things work
  - Install instructions in README
  - Add optional sample data with setup
@@ -30,6 +29,7 @@ The following items are planned for a future release:
  - Restrict the number of login attempts for a user/ip/minute
 
 ## Roadmap Progress
+ - Added password reset functionality via email -- v0.0.5 (April 24, 2014)
  - Add default profile page - v0.0.4 (April 16, 2014)
  - Password hash and salt - v0.0.3 (April 15, 2014)
  - Remember me - v0.0.2 (April 8, 2014)

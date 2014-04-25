@@ -89,13 +89,56 @@ def forgot_password():
         db.session.commit()
         sg = sendgrid.SendGridClient(app.config["SENDGRID_USER"],
                                      app.config["SENDGRID_PASS"])
+        html = "This password reset link will expire in 24 hours.<br /><br />{0}reset-password?email={1}&key={2}".format(request.host_url, user.email, user.password_reset_hash)
+        text = "This password reset link will expire in 24 hours.\n\n{0}reset-password?email={1}&key={2}".format(request.host_url, user.email, user.password_reset_hash)
         message = sendgrid.Mail(to=email, subject="Password Reset Link",
-                                html="This password reset link will expire in 24 hours.",
-                                text="This password reset link will expire in 24 hours.",
+                                html=html,
+                                text=text,
                                 from_email=app.config["SEND_EMAIL_FROM"])
         status, msg = sg.send(message)
         flash("Password reset link has been sent", "success")
+        print(request.host_url)
         return redirect(url_for("login"))
+
+@app.route("/reset-password", methods=["GET", "POST"])
+def reset_password():
+    if request.method == "GET":
+        email = request.args.get("email")
+        key = request.args.get("key")
+        user = User.query.filter_by(email=email).first()
+
+        if (user.password_reset_hash != key):
+            flash("The key you provided is invalid", "danger")
+            return redirect(url_for("index"))
+        elif (user.password_reset_exp < datetime.datetime.now()):
+            flash("Your key has expired", "danger")
+            return redirect(url_for("index"))
+        else:
+            print "here"
+            return render_template("reset-password.html", email=email)
+
+    else:
+        password1 = request.form["password1"]
+        password2 = request.form["password2"]
+        email = request.form["email"]
+
+        if password1 != password2:
+            flash("The passwords you entered do not match", "danger")
+            return render_template("reset-password.html", email=email)
+        else:
+            # Save new password
+            user = User.query.filter_by(email=email).first()
+            if user is None:
+                flash("No user with this email exists", "danger")
+                return redirect(url_for("index"))
+            else:
+                user.password = user.encrypt_password(password1)
+                user.password_reset_hash = None
+                user.password_reset_exp = None
+                db.session.merge(user)
+                db.session.commit()
+                flash("Successfully reset password", "success")
+                return redirect(url_for("login"))
 
 @app.route("/logout")
 def logout():
@@ -123,7 +166,7 @@ class User(db.Model):
     def __init__(self, name, email, plain_password):
         self.name = name
         self.email = email
-        self.password = bcrypt.hashpw(plain_password, bcrypt.gensalt(app.config["BCRYPT_ITERATIONS"]))
+        self.password = self.encrypt_password(plain_password)
 
     def is_authenticated(self):
         return True
@@ -136,6 +179,10 @@ class User(db.Model):
 
     def get_id(self):
         return unicode(self.id)
+
+    def encrypt_password(self, plain_password):
+        password = bcrypt.hashpw(plain_password, bcrypt.gensalt(app.config["BCRYPT_ITERATIONS"]))
+        return password
 
     def __repr__(self):
         return "<User {0}>".format(self.email)

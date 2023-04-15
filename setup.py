@@ -25,6 +25,6 @@ setup(
         "py-bcrypt==0.4",
         "PyMySQL==0.6.1",
         "sendgrid-python==0.1.1",
-        "sqlalchemy==0.9.4",
+        "sqlalchemy==1.3.0",
     ]
 )

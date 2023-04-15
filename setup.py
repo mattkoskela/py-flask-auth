@@ -19,7 +19,7 @@ setup(
     description="This package contains all of the necessary components to run a website with user authentication on Flask and Bootstrap.",
     long_description=LONG_DESC,
     install_requires=[
-        "flask==0.10.1",
+        "flask==1.0",
         "flask-login==0.2.10",
         "flask-sqlalchemy==1.0",
         "py-bcrypt==0.4",
